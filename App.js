@@ -9,6 +9,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+
+const client = new ApolloClient({
+  link: new HttpLink(),
+  cache: new InMemoryCache()
+});
+
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -47,14 +55,16 @@ export default function App(props) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
+      <ApolloProvider client={client}>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+            <Stack.Navigator>
+              <Stack.Screen name="Root" component={BottomTabNavigator} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </ApolloProvider>
     );
   }
 }
