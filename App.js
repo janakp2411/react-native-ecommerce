@@ -6,15 +6,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import useLinking from './navigation/useLinking';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import useLinking from './src/navigation/useLinking';
 
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 const client = new ApolloClient({
   link: new HttpLink(),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 const Stack = createStackNavigator();
@@ -37,7 +37,7 @@ export default function App(props) {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+          'space-mono': require('./src/assets/fonts/SpaceMono-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -58,7 +58,10 @@ export default function App(props) {
       <ApolloProvider client={client}>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+          <NavigationContainer
+            ref={containerRef}
+            initialState={initialNavigationState}
+          >
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
             </Stack.Navigator>
