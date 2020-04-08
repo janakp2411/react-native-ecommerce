@@ -47,7 +47,7 @@ const HomeStackNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name="Main"
         component={Home}
         options={({ route }) => {
           return {
@@ -88,7 +88,7 @@ const HomeStackNavigator = ({ navigation }) => {
         component={Category}
         options={({ route }) => {
           return {
-            headerTitle: route.params.name,
+            headerTitle:route.params ? route.params.name :route.name,
             headerTitleStyle: {
               color: "white"
             },
