@@ -11,7 +11,7 @@ class EditBasket extends Component {
       basketItemColor,
       basketItemSize,
       basketItemImageUri
-    } = this.props.navigation.state.params;
+    } = this.props.route.params;
     return (
       <View
         style={{

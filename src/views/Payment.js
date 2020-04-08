@@ -100,14 +100,3 @@ class Payment extends Component {
 }
 
 export default Payment;
-
-{
-  /* <Button
-          title="go to TermsAndConditions"
-          onPress={() => this.props.navigation.navigate("TermsAndConditions")}
-        />
-        <Button
-          title="go to CreditCard"
-          onPress={() => this.props.navigation.navigate("CreditCard")}
-        /> */
-}

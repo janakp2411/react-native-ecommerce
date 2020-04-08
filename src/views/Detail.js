@@ -151,7 +151,7 @@ class Detail extends Component {
       detailImageUri,
       detailPriceOne,
       detailPriceTwo
-    } = this.props.navigation.state.params;
+    } = this.props.route.params;
     return (
       <View
         style={{
