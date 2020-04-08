@@ -32,7 +32,7 @@ class Detail extends Component {
     colorBorderColor: "gray"
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.sizeBox = new Animated.Value(hp("65%"));
     this.colorBox = new Animated.Value(hp("65%"));
   }
@@ -362,6 +362,7 @@ class Detail extends Component {
                 }}
               >
                 <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate("Basket")}
                   style={{
                     flex: 1,
                     flexDirection: "row",

@@ -16,7 +16,7 @@ class Register extends Component {
     this.props.navigation.navigate("Home");
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.formPosition = new Animated.Value(0);
     this.animatedTitleTopMargin = new Animated.Value(20);
     this.animatedTitleSize = new Animated.Value(70);
@@ -40,7 +40,7 @@ class Register extends Component {
     );
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
     this.keyboardDidShowSub.remove();

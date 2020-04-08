@@ -20,7 +20,7 @@ class HomeCategory extends Component {
     height: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { imageUri } = this.props;
     this.setState({
       width: Image.resolveAssetSource(imageUri).width,

@@ -76,7 +76,7 @@ class Login extends Component {
                   backgroundColor="#F08C4F"
                   text="Register"
                 />
-                <Button backgroundColor="#5BBC9D" text="Login" />
+                <Button onPress={this.onPressRegister} backgroundColor="#5BBC9D" text="Login" />
               </View>
             </View>
           </ImageBackground>
