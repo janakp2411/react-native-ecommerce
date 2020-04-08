@@ -199,7 +199,7 @@ class CreditCard extends Component {
           >
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() => this.props.navigation.navigate("Main")}
               style={{
                 backgroundColor: "#F08C4F",
                 justifyContent: "center",
