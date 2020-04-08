@@ -88,7 +88,7 @@ const HomeStackNavigator = ({ navigation }) => {
         component={Category}
         options={({ route }) => {
           return {
-            headerTitle: route.name,
+            headerTitle: route.params.name,
             headerTitleStyle: {
               color: "white"
             },
