@@ -6,12 +6,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "rndebugger-open"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.4",
     "@expo/vector-icons": "~10.0.6",
     "@react-navigation/bottom-tabs": "^5.0.0",
     "@react-navigation/drawer": "^5.4.0",
@@ -32,6 +34,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
+    "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-responsive-screen": "^1.2.0",
     "react-native-star-rating": "^1.1.0",
     "react-native-tab-view": "^2.13.0",
@@ -43,10 +46,12 @@
     "@react-native-community/masked-view": "^0.1.7",
     "babel-preset-expo": "~8.1.0",
     "jest-expo": "~37.0.0",
+    "react-native-debugger-open": "^0.3.24",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.7.1",
     "react-native-safe-area-context": "^0.7.3",
-    "react-native-screens": "^2.4.0"
+    "react-native-screens": "^2.4.0",
+    "styled-components": "^5.1.0"
   },
   "private": true
 }

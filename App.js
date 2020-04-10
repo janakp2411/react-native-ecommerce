@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+
 import 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/Ionicons';
 import Login from './src/views/Login';
@@ -19,6 +22,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { resolvers } from './src/graphql-apollo/resolver'
+// import defaultDtata from './src/graphql-apollo/defaultData';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -269,12 +274,28 @@ const DrawerScreen = () => {
   )
 }
 
-export default class App extends React.Component {
+const cache = new InMemoryCache()
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'http://192.168.1.71:8000/graphql',
+  }),
+  cache,
+  // resolvers
+});
+
+// client.writeData({ data : defaultDtata });
+
+class App extends React.Component {
   render() {
     return (
-      <NavigationContainer>
-        <DrawerScreen />
-      </NavigationContainer>
+      <ApolloProvider client={client}>
+        <NavigationContainer>
+          <DrawerScreen />
+        </NavigationContainer>
+      </ApolloProvider>
     );
   }
 }
+
+export default App

@@ -10,11 +10,32 @@ import {
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import Spinner from 'react-native-loading-spinner-overlay';
+import { RegisterQuery } from '../graphql-apollo/auth';
+import { graphql } from 'react-apollo';
 
 class Register extends Component {
+
+  state = {
+    loading: false
+  }
+
   onPressCompleteRegister = () => {
-    this.props.navigation.navigate("Home");
+    this.setState({loading: true})
+    this.props.mutate({ variables: {...this.state }})
+              .then( res => {
+                if(res.data && res.data.signUp.token){
+                  this.setState({
+                    loading: false
+                  })
+                  this.props.navigation.navigate("Home");
+                }
+              })
   };
+
+  onChangeText = (value, name) => {
+    this.setState({[name]: value})
+  }
 
   UNSAFE_componentWillMount() {
     this.formPosition = new Animated.Value(0);
@@ -99,6 +120,7 @@ class Register extends Component {
           backgroundColor: "#F6F6F6"
         }}
       >
+       <Spinner visible={this.state.loading}/>
         <Animated.View
           style={{
             height: hp("18%"),
@@ -128,9 +150,9 @@ class Register extends Component {
           }}
         >
           {/* form */}
-          <Input label="Your name" placeholder="Enter your Full name" />
-          <Input label="Your email address" placeholder="Email address" />
-          <Input label="Your password" placeholder="Password" />
+          <Input onChangeText={this.onChangeText} value={this.state.username} name="username" label="Your name" placeholder="Enter your Full name" />
+          <Input onChangeText={this.onChangeText} value={this.state.email} name="email" label="Your email address" placeholder="Email address" />
+          <Input secureTextEntry={true} onChangeText={this.onChangeText} value={this.state.password} name="password" label="Your password" placeholder="Password" />
           <Text
             style={{
               fontWeight: "500",
@@ -183,4 +205,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default graphql(RegisterQuery)(Register);
