@@ -1,101 +1,88 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from 'react';
 import {
   View,
   Text,
   ImageBackground,
   Image,
   Dimensions,
-  TouchableOpacity
-} from "react-native";
+  TouchableOpacity,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from "react-native-responsive-screen";
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
-class HomeCategory extends Component {
-  state = {
-    width: null,
-    height: null
-  };
+const HomeCategory = (props) => {
+  const { imageUri, titleFirst, titleSecond, subTitle } = props;
+  const height = Image.resolveAssetSource(imageUri).height;
 
-  UNSAFE_componentWillMount() {
-    const { imageUri } = this.props;
-    this.setState({
-      width: Image.resolveAssetSource(imageUri).width,
-      height: Image.resolveAssetSource(imageUri).height
-    });
-  }
-
-  render() {
-    const { imageUri, titleFirst, titleSecond, subTitle } = this.props;
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() =>
-          this.props.navigation.navigate("Category", {
-            name: titleFirst
-          })
-        }
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() =>
+        props.navigation.navigate('Category', {
+          name: titleFirst,
+        })
+      }
+      style={{
+        height: height,
+      }}
+    >
+      <ImageBackground
+        source={imageUri}
         style={{
-          height: this.state.height
+          flex: 1,
+          width: width,
+          height: height,
+          alignSelf: 'stretch',
+          resizeMode: 'contain',
+          paddingLeft: wp('10%'),
         }}
       >
-        <ImageBackground
-          source={imageUri}
+        <View
           style={{
-            flex: 1,
-            width: width,
-            height: this.state.height,
-            alignSelf: "stretch",
-            resizeMode: "contain",
-            paddingLeft: wp("10%")
+            flex: 2,
+            justifyContent: 'flex-end',
+            paddingBottom: hp('5%'),
           }}
         >
-          <View
+          <Text
             style={{
-              flex: 2,
-              justifyContent: "flex-end",
-              paddingBottom: hp("5%")
+              fontSize: 30,
+              fontWeight: '500',
             }}
           >
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: "500"
-              }}
-            >
-              {titleFirst}
-            </Text>
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: "500"
-              }}
-            >
-              {titleSecond}
-            </Text>
-          </View>
-          <View
+            {titleFirst}
+          </Text>
+          <Text
             style={{
-              flex: 1
+              fontSize: 30,
+              fontWeight: '500',
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                color: "gray",
-                fontWeight: "500"
-              }}
-            >
-              {subTitle}
-            </Text>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
-    );
-  }
-}
+            {titleSecond}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'gray',
+              fontWeight: '500',
+            }}
+          >
+            {subTitle}
+          </Text>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
+  );
+};
 
 export default HomeCategory;

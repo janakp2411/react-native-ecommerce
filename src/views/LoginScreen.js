@@ -11,29 +11,28 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { RegisterQuery } from '../graphql-apollo/auth';
+import { LoginQuery } from '../graphql-apollo/auth';
 import { graphql } from 'react-apollo';
 
 // class Register extends Component {
-const Register = (props) => {
+const LoginScreen = (props) => {
   const [loading, showLoader] = useState(false);
   const [formData, updateFormData] = useState({
-    username: '',
     email: '',
     password: '',
   });
-  const { username = '', email = '', password = '' } = formData;
+  const { email = '', password = '' } = formData;
 
-  const onPressCompleteRegister = () => {
-    props.navigation.navigate('Home');
-    // showLoader(true);
-    // props.mutate({ variables: { ...formData } }).then((res) => {
-    //   console.warn(res);
-    //   if (res.data) {
-    //     showLoader(false);
-    //     props.navigation.navigate('Home');
-    //   }
-    // });
+  const onLogin = () => {
+    // props.navigation.navigate('Home');
+    showLoader(true);
+    props.mutate({ variables: { ...formData } }).then((res) => {
+      console.warn(res);
+      if (res.data) {
+        showLoader(false);
+        props.navigation.navigate('Home');
+      }
+    });
   };
 
   const onChangeText = (value, name) => {
@@ -147,7 +146,7 @@ const Register = (props) => {
             opacity: 1,
           }}
         >
-          Signup.
+          Login
         </Animated.Text>
       </Animated.View>
       <Animated.View
@@ -159,13 +158,7 @@ const Register = (props) => {
         }}
       >
         {/* form */}
-        <Input
-          onChangeText={onChangeText}
-          value={username}
-          name="username"
-          label="Your name"
-          placeholder="Enter your Full name"
-        />
+
         <Input
           onChangeText={onChangeText}
           value={email}
@@ -221,9 +214,9 @@ const Register = (props) => {
           >
             <Button
               fullWidth
-              onPress={onPressCompleteRegister}
+              onPress={onLogin}
               backgroundColor="#F08C4F"
-              text="Complete registration"
+              text="Login"
             />
           </View>
         </ImageBackground>
@@ -232,4 +225,4 @@ const Register = (props) => {
   );
 };
 
-export default graphql(RegisterQuery)(Register);
+export default graphql(LoginQuery)(LoginScreen);

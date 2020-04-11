@@ -1,26 +1,30 @@
-import React, { Component } from "react";
-import { View, Text, ImageBackground } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import Button from "../components/Button";
+import React, { Component } from 'react';
+import { View, Text, ImageBackground } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import Button from '../components/Button';
 
 class Login extends Component {
   onPressRegister = () => {
-    this.props.navigation.navigate("Register");
+    this.props.navigation.navigate('Register');
+  };
+
+  onPressLogin = () => {
+    this.props.navigation.navigate('App');
   };
 
   render() {
     return (
       <View
         style={{
-          flex: 1
+          flex: 1,
         }}
       >
         <View
           style={{
             flex: 1,
-            backgroundColor: "#F6F6F6",
-            alignItems: "center",
-            justifyContent: "center"
+            backgroundColor: '#F6F6F6',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           {/* brandName part */}
@@ -28,7 +32,7 @@ class Login extends Component {
             style={{
               // fontSize: hp("11.25%"),
               fontSize: 90,
-              fontWeight: "bold"
+              fontWeight: 'bold',
             }}
           >
             fash.
@@ -36,7 +40,7 @@ class Login extends Component {
           <Text
             style={{
               fontSize: 26,
-              fontWeight: "400"
+              fontWeight: '400',
             }}
           >
             your 24h fash.store
@@ -44,31 +48,31 @@ class Login extends Component {
         </View>
         <View
           style={{
-            flex: 2
+            flex: 2,
           }}
         >
           {/* Image part */}
           <ImageBackground
-            source={require("../../assets/login_bg_1.jpg")}
+            source={require('../../assets/login_bg_1.jpg')}
             style={{
               flex: 1,
               width: null,
-              height: hp("78%")
+              height: hp('78%'),
               // height: 550
             }}
           >
             <View
               style={{
                 flex: 1,
-                justifyContent: "flex-end"
+                justifyContent: 'flex-end',
               }}
             >
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: hp("5%"),
-                  paddingHorizontal: hp("2.5%")
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingBottom: hp('5%'),
+                  paddingHorizontal: hp('2.5%'),
                 }}
               >
                 <Button
@@ -76,7 +80,11 @@ class Login extends Component {
                   backgroundColor="#F08C4F"
                   text="Register"
                 />
-                <Button onPress={this.onPressRegister} backgroundColor="#5BBC9D" text="Login" />
+                <Button
+                  onPress={this.onPressLogin}
+                  backgroundColor="#5BBC9D"
+                  text="Login"
+                />
               </View>
             </View>
           </ImageBackground>

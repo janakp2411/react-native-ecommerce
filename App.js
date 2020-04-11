@@ -22,6 +22,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import LoginScreen from './src/views/LoginScreen';
 // import { resolvers } from './src/graphql-apollo/resolver'
 // import defaultDtata from './src/graphql-apollo/defaultData';
 
@@ -31,12 +32,12 @@ const Tabs = createMaterialTopTabNavigator();
 
 const PaymentStackNavigator = () => {
   return (
-    <Stack.Navigator headerMode='none'>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="CreditCard" component={CreditCard} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const CheckoutTabNavigator = () => {
   return (
@@ -45,8 +46,8 @@ const CheckoutTabNavigator = () => {
       <Tabs.Screen name="Shipping" component={Shipping} />
       <Tabs.Screen name="Payment" component={PaymentStackNavigator} />
     </Tabs.Navigator>
-  )
-}
+  );
+};
 
 const HomeStackNavigator = ({ navigation }) => {
   return (
@@ -58,10 +59,10 @@ const HomeStackNavigator = ({ navigation }) => {
           return {
             headerTitle: route.name,
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
             headerLeft: () => (
               <Icon
@@ -70,7 +71,7 @@ const HomeStackNavigator = ({ navigation }) => {
                 color="white"
                 size={30}
                 style={{
-                  paddingLeft: 10
+                  paddingLeft: 10,
                 }}
               />
             ),
@@ -81,11 +82,11 @@ const HomeStackNavigator = ({ navigation }) => {
                 color="white"
                 size={30}
                 style={{
-                  paddingRight: 10
+                  paddingRight: 10,
                 }}
               />
-            )
-          }
+            ),
+          };
         }}
       />
       <Stack.Screen
@@ -93,12 +94,12 @@ const HomeStackNavigator = ({ navigation }) => {
         component={Category}
         options={({ route }) => {
           return {
-            headerTitle:route.params ? route.params.name :route.name,
+            headerTitle: route.params ? route.params.name : route.name,
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
             headerLeft: () => (
               <Icon
@@ -107,23 +108,22 @@ const HomeStackNavigator = ({ navigation }) => {
                 color="white"
                 size={30}
                 style={{
-                  paddingLeft: 10
+                  paddingLeft: 10,
                 }}
               />
             ),
             headerRight: () => (
               <Icon
-                onPress={() => navigation.navigate("Basket")}
+                onPress={() => navigation.navigate('Basket')}
                 name="md-cart"
                 color="white"
                 size={30}
                 style={{
-                  paddingRight: 10
+                  paddingRight: 10,
                 }}
               />
-
-            )
-          }
+            ),
+          };
         }}
       />
       <Stack.Screen
@@ -132,23 +132,23 @@ const HomeStackNavigator = ({ navigation }) => {
         options={() => {
           return {
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
-            headerTitle: "Checkout",
+            headerTitle: 'Checkout',
             headerLeft: () => (
               <Icon
                 onPress={() => navigation.openDrawer()}
                 name="md-menu"
                 size={30}
                 style={{
-                  paddingLeft: 10
+                  paddingLeft: 10,
                 }}
               />
-            )
-          }
+            ),
+          };
         }}
       />
       <Stack.Screen
@@ -158,10 +158,10 @@ const HomeStackNavigator = ({ navigation }) => {
           return {
             headerTitle: route.name,
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
             headerLeft: () => (
               <Icon
@@ -169,11 +169,11 @@ const HomeStackNavigator = ({ navigation }) => {
                 name="md-menu"
                 size={30}
                 style={{
-                  paddingLeft: 10
+                  paddingLeft: 10,
                 }}
               />
-            )
-          }
+            ),
+          };
         }}
       />
       <Stack.Screen
@@ -182,26 +182,26 @@ const HomeStackNavigator = ({ navigation }) => {
         options={({ route }) => {
           return {
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
             headerTitle: route.params.detailName,
             headerLeft: null,
             headerRight: () => (
               <Icon
-                onPress={() => navigation.navigate("Category")}
+                onPress={() => navigation.navigate('Category')}
                 name="ios-close"
                 color="white"
                 size={50}
                 style={{
-                  paddingRight: 10
+                  paddingRight: 10,
                 }}
               />
             ),
-            gesturesEnabled: false
-          }
+            gesturesEnabled: false,
+          };
         }}
       />
       <Stack.Screen
@@ -210,26 +210,26 @@ const HomeStackNavigator = ({ navigation }) => {
         options={() => {
           return {
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
-            headerTitle: "Terms & Conditions",
+            headerTitle: 'Terms & Conditions',
             headerLeft: null,
             headerRight: () => (
               <Icon
-                onPress={() => navigation.navigate("CreditCard")}
+                onPress={() => navigation.navigate('CreditCard')}
                 name="ios-close"
                 color="white"
                 size={50}
                 style={{
-                  paddingRight: 10
+                  paddingRight: 10,
                 }}
               />
             ),
-            gesturesEnabled: false
-          }
+            gesturesEnabled: false,
+          };
         }}
       />
       <Stack.Screen
@@ -238,47 +238,50 @@ const HomeStackNavigator = ({ navigation }) => {
         options={() => {
           return {
             headerTitleStyle: {
-              color: "white"
+              color: 'white',
             },
             headerStyle: {
-              backgroundColor: "#5BBC9D"
+              backgroundColor: '#5BBC9D',
             },
-            headerTitle: "Edit Basket Item",
+            headerTitle: 'Edit Basket Item',
             headerLeft: null,
             headerRight: () => (
               <Icon
-                onPress={() => navigation.navigate("Basket")}
+                onPress={() => navigation.navigate('Basket')}
                 name="ios-checkmark"
                 color="white"
                 size={50}
                 style={{
-                  paddingRight: 10
+                  paddingRight: 10,
                 }}
               />
             ),
-            gesturesEnabled: false
-          }
+            gesturesEnabled: false,
+          };
         }}
       />
     </Stack.Navigator>
   );
-}
+};
 
 const DrawerScreen = () => {
   return (
-    <Drawer.Navigator drawerContent={props => <CustomDrawerComponent {...props} />}>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerComponent {...props} />}
+    >
+      <Drawer.Screen name="App" component={LoginScreen} />
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Register" component={Register} />
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
     </Drawer.Navigator>
-  )
-}
+  );
+};
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://192.168.1.71:8000/graphql',
+    uri: 'http://192.168.1.145:8000/',
   }),
   cache,
   // resolvers
@@ -298,4 +301,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default App;
