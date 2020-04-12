@@ -2,6 +2,30 @@ import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
 import HomeCategory from "../components/HomeCategory";
 
+const categories = [
+  {
+    imageUri: "women_fashion.jpg",
+    titleFirst: "Womens",
+    titleSecond: "Fashion",
+    subTitle: "Spring Season. Opened!",
+    screenProps: "Super"
+  },
+  {
+    imageUri: "men_fashion.jpeg",
+    titleFirst: "Mens",
+    titleSecond: "Fashion",
+    subTitle: "Pure. Old Fashioned.",
+    screenProps: "Super"
+  },
+  {
+    imageUri: "kids_fashion.jpg",
+    titleFirst: "Kids",
+    titleSecond: "Fashion",
+    subTitle: "For the smallest.",
+    screenProps: "Super"
+  }
+]
+
 class Home extends Component {
   render() {
     return (

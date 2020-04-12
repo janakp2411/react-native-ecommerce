@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,33 +7,28 @@ import {
   Animated,
   Keyboard,
 } from 'react-native';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { LoginQuery } from '../graphql-apollo/auth';
-import { graphql } from 'react-apollo';
+import { MUTATION_USER_SIGNIN } from '../graphql-apollo/auth';
 
-// class Register extends Component {
 const LoginScreen = (props) => {
-  const [loading, showLoader] = useState(false);
-  const [formData, updateFormData] = useState({
-    email: '',
-    password: '',
-  });
-  const { email = '', password = '' } = formData;
+  const [formData, updateFormData] = useState({email: '', password: ''});
+  const { email, password } = formData;
+  const client = useApolloClient();
+  
+  const onCompletedLogin = ({signIn}) => {
+    if(signIn){
+      client.writeData({ data: { signIn }});
+      props.navigation.navigate('Home');
+    }
+  }
 
-  const onLogin = () => {
-    // props.navigation.navigate('Home');
-    showLoader(true);
-    props.mutate({ variables: { ...formData } }).then((res) => {
-      console.warn(res);
-      if (res.data) {
-        showLoader(false);
-        props.navigation.navigate('Home');
-      }
-    });
-  };
+  const [ LoginFun, { loading } ] = useMutation(MUTATION_USER_SIGNIN, 
+    { variables: { email, password }, onCompleted: onCompletedLogin }
+  );
 
   const onChangeText = (value, name) => {
     updateFormData({ ...formData, [name]: value });
@@ -214,7 +209,7 @@ const LoginScreen = (props) => {
           >
             <Button
               fullWidth
-              onPress={onLogin}
+              onPress={LoginFun}
               backgroundColor="#F08C4F"
               text="Login"
             />
@@ -225,4 +220,4 @@ const LoginScreen = (props) => {
   );
 };
 
-export default graphql(LoginQuery)(LoginScreen);
+export default LoginScreen;

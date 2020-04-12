@@ -1,4 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import {
   View,
   Text,
@@ -11,30 +12,28 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { RegisterQuery } from '../graphql-apollo/auth';
-import { graphql } from 'react-apollo';
+import { MUTATION_USER_REGISTER } from '../graphql-apollo/auth';
 
-// class Register extends Component {
 const Register = (props) => {
-  const [loading, showLoader] = useState(false);
+  const client = useApolloClient();
   const [formData, updateFormData] = useState({
     username: '',
     email: '',
     password: '',
   });
-  const { username = '', email = '', password = '' } = formData;
 
-  const onPressCompleteRegister = () => {
-    props.navigation.navigate('Home');
-    // showLoader(true);
-    // props.mutate({ variables: { ...formData } }).then((res) => {
-    //   console.warn(res);
-    //   if (res.data) {
-    //     showLoader(false);
-    //     props.navigation.navigate('Home');
-    //   }
-    // });
-  };
+  const { username, email, password } = formData;
+
+  const onCompletedRegister = ({signUp }) => {
+    if(signUp && signUp.token){
+      client.writeData({ data: {signUp }});
+      props.navigation.navigate('Home');
+    }
+  }
+
+  const [ SignUp, { loading } ] = useMutation(MUTATION_USER_REGISTER, 
+    { variables: { username, email, password}, onCompleted: onCompletedRegister }
+  );
 
   const onChangeText = (value, name) => {
     updateFormData({ ...formData, [name]: value });
@@ -122,6 +121,7 @@ const Register = (props) => {
     ]).start();
   };
 
+  // console.warn(SignUp, data)
   return (
     <View
       style={{
@@ -221,7 +221,7 @@ const Register = (props) => {
           >
             <Button
               fullWidth
-              onPress={onPressCompleteRegister}
+              onPress={SignUp}
               backgroundColor="#F08C4F"
               text="Complete registration"
             />
@@ -232,4 +232,4 @@ const Register = (props) => {
   );
 };
 
-export default graphql(RegisterQuery)(Register);
+export default Register;
