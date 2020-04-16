@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -6,178 +6,61 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from '@expo/vector-icons/Ionicons';
 import ItemList from '../components/ItemList';
-
-const CATEGORY = [
-  'Dresses',
-  'Shoes',
-  'Shorts',
-  'Skirts',
-  'Dresses',
-  'Shoes',
-  'Shorts',
-  'Skirts',
-];
-
-const DRESSES = [
-  {
-    id: 1,
-    imageUri: require('../../assets/dresses/dresses_1.jpg'),
-    name: 'Helena',
-    priceOne: 120,
-    priceTwo: '$180',
-  },
-  {
-    id: 2,
-    imageUri: require('../../assets/dresses/dresses_2.jpg'),
-    name: 'Marie-Anne short',
-    priceOne: 180,
-    priceTwo: null,
-  },
-  {
-    id: 3,
-    imageUri: require('../../assets/dresses/dresses_3.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 4,
-    imageUri: require('../../assets/dresses/dresses_4.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 5,
-    imageUri: require('../../assets/dresses/dresses_1.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 6,
-    imageUri: require('../../assets/dresses/dresses_2.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-];
-
-const SHOES = [
-  {
-    id: 1,
-    imageUri: require('../../assets/shoes/shoes_1.jpg'),
-    name: 'Helena',
-    priceOne: 120,
-    priceTwo: '$180',
-  },
-  {
-    id: 2,
-    imageUri: require('../../assets/shoes/shoes_2.jpg'),
-    name: 'Marie-Anne short',
-    priceOne: 180,
-    priceTwo: null,
-  },
-  {
-    id: 3,
-    imageUri: require('../../assets/shoes/shoes_3.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 4,
-    imageUri: require('../../assets/shoes/shoes_4.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 5,
-    imageUri: require('../../assets/shoes/shoes_1.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-  {
-    id: 6,
-    imageUri: require('../../assets/shoes/shoes_2.jpg'),
-    name: 'Betruschka',
-    priceOne: 80,
-    priceTwo: null,
-  },
-];
+import { QAUARY_GET_CATAGOTY, MUTATION_GET_PRODUCTS_BY_CATAGORY } from '../graphql-apollo/catagory';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Category = (props) => {
+
+  const renderItemList = (productData) => {
+    if(!productData) return null;
+    return productData.getProductsBycategory && productData.getProductsBycategory.map((item, i) => {
+      return (
+        <ItemList
+          onPress={() =>
+            props.navigation.navigate('Detail', {
+              detailName: item.name,
+              detailImageUri: item.imgUrl,
+              detailPriceOne: item.price,
+              detailPriceTwo: item.priceTwo ? item.priceTwo : null,
+            })
+          }
+          key={item.id}
+          isExternal={true}
+          imageUri={item.imgUrl}
+          name={item.name}
+          priceOne={item.price}
+          priceTwo={item.priceTwo ? item.priceTwo : null}
+        />
+      );
+    });
+  };
+
+  const [getProductsByCatagoryFn, {data: productData, loading: productLoader}] = useLazyQuery(MUTATION_GET_PRODUCTS_BY_CATAGORY);
+  const onCategoryLoad = ({getAllCategory}) => {
+   getProductsByCatagoryFn({variables: {category: getAllCategory[0].name}})
+  }
+  const { data: newData, loading } = useQuery(QAUARY_GET_CATAGOTY, { onCompleted: onCategoryLoad});
   const [currentIndex, setCurrentIndex] = useState(0);
   const renderCategory = () => {
-    return CATEGORY.map((item, i) => {
+    return newData && newData.getAllCategory.map((item, i) => {
       return (
         <Text
           key={i}
-          onPress={() => setCurrentIndex(i)}
+          onPress={() => {
+            setCurrentIndex(i)
+            getProductsByCatagoryFn({variables:{category : item.name}})} 
+          }
           style={{
             fontSize: 18,
             color: currentIndex === i ? '#F08C4F' : 'white',
             paddingHorizontal: 10,
           }}
         >
-          {item}
+          {item.name}
         </Text>
       );
     });
-  };
-
-  const renderItemList_Dress = () => {
-    return DRESSES.map((item, i) => {
-      return (
-        <ItemList
-          onPress={() =>
-            props.navigation.navigate('Detail', {
-              detailName: item.name,
-              detailImageUri: item.imageUri,
-              detailPriceOne: item.priceOne,
-              detailPriceTwo: item.priceTwo ? item.priceTwo : null,
-            })
-          }
-          key={item.id}
-          imageUri={item.imageUri}
-          name={item.name}
-          priceOne={item.priceOne}
-          priceTwo={item.priceTwo ? item.priceTwo : null}
-        />
-      );
-    });
-  };
-
-  const renderItemList_Shoes = () => {
-    return SHOES.map((item, i) => {
-      return (
-        <ItemList
-          onPress={() =>
-            props.navigation.navigate('Detail', {
-              detailName: item.name,
-              detailImageUri: item.imageUri,
-              detailPriceOne: item.priceOne,
-              detailPriceTwo: item.priceTwo ? item.priceTwo : null,
-            })
-          }
-          key={item.id}
-          imageUri={item.imageUri}
-          name={item.name}
-          priceOne={item.priceOne}
-          priceTwo={item.priceTwo ? item.priceTwo : null}
-        />
-      );
-    });
-  };
-
-  const renderItemList = () => {
-    if (currentIndex === 0) {
-      return renderItemList_Dress();
-    } else if (currentIndex === 1) {
-      return renderItemList_Shoes();
-    }
   };
 
   return (
@@ -186,6 +69,7 @@ const Category = (props) => {
         flex: 1,
       }}
     >
+    <Spinner visible={loading || productLoader}/>
       {/* headerScrollHorizontal */}
       <View
         style={{
@@ -250,8 +134,13 @@ const Category = (props) => {
             justifyContent: 'space-between',
           }}
         >
+
+          {renderItemList(productData)}
           {/* ItemList */}
-          {renderItemList()}
+          {/* {
+            productData && productData.getProductsByCatagory ?
+         <RenderItemList data={productData.getProductsByCatagory} navigation={props.navigation}/> : <View><Text>Janak</Text></View>
+        } */}
         </ScrollView>
       </View>
       {/* itemLists ScrollVertical */}

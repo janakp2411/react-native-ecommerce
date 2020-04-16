@@ -4,7 +4,8 @@ import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 class ItemList extends Component {
   render() {
-    const { imageUri, name, priceOne, priceTwo, onPress } = this.props;
+    const { imageUri, name, priceOne, priceTwo, onPress, isExternal } = this.props;
+    const url = isExternal && imageUri ? {uri: imageUri} : imageUri
     return (
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
         <View

@@ -269,10 +269,11 @@ const DrawerScreen = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
     >
+     <Drawer.Screen name="Home" component={HomeStackNavigator} />
       <Drawer.Screen name="App" component={LoginScreen} />
       <Drawer.Screen name="Login" component={Register} />
       <Drawer.Screen name="Register" component={Login} />
-      <Drawer.Screen name="Home" component={HomeStackNavigator} />
+     
     </Drawer.Navigator>
   );
 };

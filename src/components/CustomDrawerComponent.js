@@ -17,6 +17,35 @@ class CustomDrawerComponent extends Component {
           flex: 1
         }}
       >
+        <View
+          style={{
+            paddingTop: wp("10%"),
+            paddingHorizontal: wp("5%"),
+            paddingBottom: wp("3%"),
+            flexDirection: "row",
+            // justifyContent: "space-between",
+            alignItems: "left",
+            backgroundColor: "rgba(91, 188, 157, 0.9)",
+          }}
+        >
+          <Icon
+            onPress={() => this.props.navigation.closeDrawer()}
+            name="ios-person"
+            color="white"
+            size={24}
+          />
+          <Text
+            style={{
+              color: "white",
+              paddingLeft: wp("5px"),
+              fontSize: 20,
+              fontWeight: "bold"
+            }}
+          >
+            Hello User
+              </Text>
+        </View>
+
         <ImageBackground
           source={require("../../assets/drawer_bg.jpg")}
           style={{
@@ -30,9 +59,10 @@ class CustomDrawerComponent extends Component {
             style={{
               flex: 1,
               backgroundColor: "rgba(91, 188, 157, 0.9)",
-              paddingTop: wp("14%"),
+              // paddingTop: wp("14%"),
               paddingHorizontal: wp("9.5%"),
-              paddingBottom: wp("7%")
+              paddingBottom: wp("7%"),
+              paddingLeft: wp("5px")
             }}
           >
             <View
@@ -209,11 +239,3 @@ class CustomDrawerComponent extends Component {
 }
 
 export default CustomDrawerComponent;
-
-{
-  /* <Text> CustomDrawerComponent </Text>
-        <Button
-          title="go to Basket"
-          onPress={() => this.props.navigation.navigate("Basket")}
-        /> */
-}
