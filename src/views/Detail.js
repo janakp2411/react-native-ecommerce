@@ -152,6 +152,7 @@ class Detail extends Component {
       detailPriceOne,
       detailPriceTwo
     } = this.props.route.params;
+    const url = detailImageUri && detailImageUri.startsWith("http") ? {uri: detailImageUri} : detailImageUri
     return (
       <View
         style={{
@@ -167,7 +168,7 @@ class Detail extends Component {
             }}
           >
             <Image
-              source={detailImageUri}
+              source={url}
               style={{
                 flex: 1,
                 width: null,
