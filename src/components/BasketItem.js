@@ -38,6 +38,7 @@ class BasketItem extends Component {
   };
   render() {
     const { imageUri, name, color, size, price } = this.props;
+    const url = imageUri && imageUri.startsWith("http") ? { uri: imageUri } : imageUri
     return (
       <View
         style={{
@@ -59,7 +60,7 @@ class BasketItem extends Component {
           }}
         >
           <Image
-            source={imageUri}
+            source={url}
             style={{
               flex: 1,
               width: null,

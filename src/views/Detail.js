@@ -9,6 +9,7 @@ import {
   Animated,
   TouchableWithoutFeedback
 } from "react-native";
+import { useMutation, useApolloClient, useLazyQuery } from '@apollo/react-hooks';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
@@ -16,6 +17,7 @@ import {
 import Icon from "@expo/vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import ChoosingSizeBox from "../components/ChoosingSizeBox";
+import { MUTATION_ADD_CART_DATA } from '../graphql-apollo/catagory';
 
 const { width } = Dimensions.get("window");
 
@@ -33,7 +35,16 @@ const Detail = props => {
     colorBorderColor: "gray"
   };
 
+  
+  const onPurchase = (getCartData) => {
+
+    props.navigation.navigate("Basket", {...props.route.params})
+  }
+
   const [detailsData, setDetailData] = useState(state)
+  const [addToCart] = useMutation(MUTATION_ADD_CART_DATA, {
+    onCompleted: onPurchase
+  });
 
   const sizeBox = new Animated.Value(hp("65%"));
   const colorBox = new Animated.Value(hp("65%"));
@@ -141,7 +152,9 @@ const Detail = props => {
     detailName,
     detailImageUri,
     detailPriceOne,
-    detailPriceTwo
+    detailPriceTwo,
+    category,
+    id
   } = props.route.params;
 
   const url = detailImageUri && detailImageUri.startsWith("http") ? { uri: detailImageUri } : detailImageUri
@@ -355,7 +368,13 @@ const Detail = props => {
               }}
             >
               <TouchableOpacity
-                onPress={() => props.navigation.navigate("Basket")}
+                onPress={() => addToCart({variables: {
+                  name: detailName,
+                  imgUrl :detailImageUri,
+                  price: detailPriceOne,
+                  id: id,
+                  category: category
+                }})}
                 style={{
                   flex: 1,
                   flexDirection: "row",

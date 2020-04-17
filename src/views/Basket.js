@@ -1,112 +1,100 @@
 import React, { Component } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { useMutation, useApolloClient, useQuery } from '@apollo/react-hooks';
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from "@expo/vector-icons/Ionicons";
 import BasketItem from "../components/BasketItem";
 import BasketTotalList from "../components/BasketTotalList";
+import { QAUARY_GET_CART_DATA } from '../graphql-apollo/catagory';
 
-class Basket extends Component {
-  render() {
-    return (
+const Basket = props => {
+ 
+  const { data : { getCartData = [] } } = useQuery(QAUARY_GET_CART_DATA);
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#EFF0F1"
+      }}
+    >
+      {/* ItemLists_upper */}
+      <View
+        style={{
+          flex: 2
+        }}
+      >
+        <ScrollView> 
+        {
+          getCartData && getCartData.map(cart => {
+            return <BasketItem
+            editIcon={true}
+            imageUri={cart.imgUrl}
+            name={cart.name}
+            color="Black"
+            size="M"
+            price={cart.price}
+            {...props}
+          />
+          })
+        }
+        </ScrollView>
+      </View>
+      {/* ItemLists_upper */}
+      {/* total_lower */}
       <View
         style={{
           flex: 1,
-          backgroundColor: "#EFF0F1"
+          paddingTop: wp("10%")
         }}
       >
-        {/* ItemLists_upper */}
-        <View
-          style={{
-            flex: 2
-          }}
-        >
-          <ScrollView>
-            <BasketItem
-              editIcon={true}
-              imageUri={require("../../assets/dresses/dresses_1.jpg")}
-              name="Dress Helena"
-              color="Black"
-              size="M"
-              price={120}
-              {...this.props}
-            />
-            <BasketItem
-              editIcon={true}
-              imageUri={require("../../assets/dresses/dresses_2.jpg")}
-              name="Dress Marie-Anne short"
-              color="Black"
-              size="M"
-              price={180}
-              {...this.props}
-            />
-            <BasketItem
-              editIcon={true}
-              imageUri={require("../../assets/dresses/dresses_3.jpg")}
-              name="Dress Betruschka"
-              color="Black"
-              size="M"
-              price={80}
-              {...this.props}
-            />
-          </ScrollView>
-        </View>
-        {/* ItemLists_upper */}
-        {/* total_lower */}
+        <BasketTotalList label="Shipping" price={6} />
+        <BasketTotalList label="Your total" price={380} />
         <View
           style={{
             flex: 1,
-            paddingTop: wp("10%")
+            paddingHorizontal: 20,
+            justifyContent: "flex-end",
+            paddingBottom: 15
           }}
         >
-          <BasketTotalList label="Shipping" price={6} />
-          <BasketTotalList label="Your total" price={380} />
-          <View
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => props.navigation.navigate("Checkout")}
             style={{
-              flex: 1,
-              paddingHorizontal: 20,
-              justifyContent: "flex-end",
-              paddingBottom: 15
+              flexDirection: "row",
+              backgroundColor: "#F08C4F",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 2,
+              shadowOffset: { width: 1, height: 2 },
+              shadowColor: "#000",
+              shadowOpacity: 0.4,
+              elevation: 4,
+              paddingVertical: 10
             }}
           >
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.props.navigation.navigate("Checkout")}
+            <View
               style={{
-                flexDirection: "row",
-                backgroundColor: "#F08C4F",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 2,
-                shadowOffset: { width: 1, height: 2 },
-                shadowColor: "#000",
-                shadowOpacity: 0.4,
-                elevation: 4,
-                paddingVertical: 10
+                marginRight: 15
               }}
             >
-              <View
-                style={{
-                  marginRight: 15
-                }}
-              >
-                <Icon name="md-cart" size={20} color="white" />
-              </View>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "500",
-                  color: "white"
-                }}
-              >
-                Place your order
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <Icon name="md-cart" size={20} color="white" />
+            </View>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "500",
+                color: "white"
+              }}
+            >
+              Place your order
+            </Text>
+          </TouchableOpacity>
         </View>
-        {/* total_lower */}
       </View>
-    );
-  }
+      {/* total_lower */}
+    </View>
+  );
 }
 
 export default Basket;

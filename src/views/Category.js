@@ -23,6 +23,8 @@ const Category = (props) => {
               detailImageUri: item.imgUrl,
               detailPriceOne: item.price,
               detailPriceTwo: item.priceTwo ? item.priceTwo : null,
+              id: item.id,
+              category: item.category || 'category'
             })
           }
           key={item.id}

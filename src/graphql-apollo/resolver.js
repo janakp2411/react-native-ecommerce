@@ -1,21 +1,19 @@
 import { MUTATION_USER_REGISTER, MUTATION_USER_SIGNIN } from './auth';
+import { QAUARY_GET_CART_DATA, MUTATION_ADD_CART_DATA } from './catagory';
 
 export const resolvers = {
     Mutation: {
-        signUp : (_root, _args, { cache }) => {
-            console.warn('_args..........................')
-            // const { cartHidden } = cache.readQuery({
-            //   query: MUTATION_USER_SIGNIN
-            // });
 
-            return { name: '0000000000000000000000000000000000000000000000000000000' }
+        addToCart: (_root, args, { cache }) => {
+            const { getCartData = [] } = cache.readQuery({query: QAUARY_GET_CART_DATA});
+            getCartData.push(args)
+            cache.writeQuery({
+              query: MUTATION_ADD_CART_DATA,
+              data: { getCartData }
+            }); 
 
-            // cache.writeQuery({
-            //   query: GET_CART_HIDDEN,
-            //   data: { cartHidden: !cartHidden }
-            // });
+            return getCartData
+        },
 
-            // return !cartHidden;
-        }
     }
 };
