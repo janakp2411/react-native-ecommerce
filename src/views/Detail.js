@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,8 +19,9 @@ import ChoosingSizeBox from "../components/ChoosingSizeBox";
 
 const { width } = Dimensions.get("window");
 
-class Detail extends Component {
-  state = {
+const Detail = props => {
+
+  const state = {
     defaultBox: null,
     size: "small",
     color: "black",
@@ -32,525 +33,410 @@ class Detail extends Component {
     colorBorderColor: "gray"
   };
 
-  UNSAFE_componentWillMount() {
-    this.sizeBox = new Animated.Value(hp("65%"));
-    this.colorBox = new Animated.Value(hp("65%"));
+  const [detailsData, setDetailData] = useState(state)
+
+  const sizeBox = new Animated.Value(hp("65%"));
+  const colorBox = new Animated.Value(hp("65%"));
+
+  const onChooseItem = item => {
+    setDetailData({ ...detailsData, size: item })
+  };
+
+  const onChooseColor = item => {
+    setDetailData({ ...detailsData, color: item })
+  };
+
+  const openColorBox = () => {
+    setDetailData({
+      ...detailsData,
+      sizeBoxOpen: false,
+      colorBoxOpen: !detailsData.colorBoxOpen,
+      colorIconName:
+        detailsData.colorIconName === "ios-arrow-down" ? "ios-arrow-up" : "ios-arrow-down",
+      iconName: "ios-arrow-down",
+      colorBorderColor: detailsData.colorBorderColor === "gray" ? "black" : "gray",
+      sizeBorderColor: "gray",
+      defaultBox: "colorBox"
+    })
+  };
+
+  useEffect(() => {
+    if (detailsData.sizeBoxOpen) {
+      Animated.timing(sizeBox, {
+        toValue: hp("30%"),
+        duration: 400
+      }).start();
+    } else {
+      Animated.timing(sizeBox, {
+        toValue: hp("65%"),
+        duration: 400
+      }).start();
+    }
+    if (detailsData.colorBoxOpen) {
+      Animated.timing(colorBox, {
+        toValue: hp("30%"),
+        duration: 400
+      }).start();
+    } else {
+      Animated.timing(colorBox, {
+        toValue: hp("65%"),
+        duration: 400
+      }).start();
+    }
+  }, [detailsData.sizeBoxOpen])
+
+  useEffect(() => {
+    if (detailsData.colorBoxOpen) {
+      Animated.timing(colorBox, {
+        toValue: hp("30%"),
+        duration: 400
+      }).start();
+    } else {
+      Animated.timing(colorBox, {
+        toValue: hp("65%"),
+        duration: 400
+      }).start();
+    }
+    if (detailsData.sizeBoxOpen) {
+      Animated.timing(sizeBox, {
+        toValue: hp("30%"),
+        duration: 400
+      }).start();
+    } else {
+      Animated.timing(sizeBox, {
+        toValue: hp("65%"),
+        duration: 400
+      }).start();
+    }
+  }, [detailsData.colorBoxOpen])
+
+  const openSizeBox = () => {
+    setDetailData({
+      ...detailsData,
+      colorBoxOpen: false,
+      sizeBoxOpen: !detailsData.sizeBoxOpen,
+      iconName: detailsData.iconName === "ios-arrow-down"
+        ? "ios-arrow-up"
+        : "ios-arrow-down",
+      colorIconName: "ios-arrow-down",
+      sizeBorderColor: detailsData.sizeBorderColor === "gray" ? "black" : "gray",
+      colorBorderColor: "gray",
+      defaultBox: "sizeBox"
+    })
   }
 
-  onChooseItem = item => {
-    this.setState({ size: item });
-  };
+  const animatedSizeBoxOpacity = sizeBox.interpolate({
+    inputRange: [hp("30%"), hp("65%")],
+    outputRange: [1, 0],
+    extrapolate: "clamp"
+  });
 
-  onChooseColor = item => {
-    this.setState({ color: item });
-  };
+  const animatedColorBoxOpacity = colorBox.interpolate({
+    inputRange: [hp("30%"), hp("65%")],
+    outputRange: [1, 0],
+    extrapolate: "clamp"
+  });
 
-  openColorBox = () => {
-    this.setState(
-      (prevState, props) => {
-        return {
-          sizeBoxOpen: false,
-          colorBoxOpen: !prevState.colorBoxOpen,
-          colorIconName:
-            prevState.colorIconName === "ios-arrow-down"
-              ? "ios-arrow-up"
-              : "ios-arrow-down",
-          iconName: "ios-arrow-down",
-          colorBorderColor:
-            prevState.colorBorderColor === "gray" ? "black" : "gray",
-          sizeBorderColor: "gray",
-          defaultBox: "colorBox"
-        };
-      },
-      () => {
-        if (this.state.colorBoxOpen) {
-          Animated.timing(this.colorBox, {
-            toValue: hp("30%"),
-            duration: 400
-          }).start();
-        } else {
-          Animated.timing(this.colorBox, {
-            toValue: hp("65%"),
-            duration: 400
-          }).start();
-        }
-        if (this.state.sizeBoxOpen) {
-          Animated.timing(this.sizeBox, {
-            toValue: hp("30%"),
-            duration: 400
-          }).start();
-        } else {
-          Animated.timing(this.sizeBox, {
-            toValue: hp("65%"),
-            duration: 400
-          }).start();
-        }
-      }
-    );
-  };
+  const {
+    detailName,
+    detailImageUri,
+    detailPriceOne,
+    detailPriceTwo
+  } = props.route.params;
 
-  openSizeBox = () => {
-    this.setState(
-      (prevState, props) => {
-        return {
-          colorBoxOpen: false,
-          sizeBoxOpen: !prevState.sizeBoxOpen,
-          iconName:
-            prevState.iconName === "ios-arrow-down"
-              ? "ios-arrow-up"
-              : "ios-arrow-down",
-          colorIconName: "ios-arrow-down",
-          sizeBorderColor:
-            prevState.sizeBorderColor === "gray" ? "black" : "gray",
-          colorBorderColor: "gray",
-          defaultBox: "sizeBox"
-        };
-      },
-      () => {
-        if (this.state.sizeBoxOpen) {
-          Animated.timing(this.sizeBox, {
-            toValue: hp("30%"),
-            duration: 400
-          }).start();
-        } else {
-          Animated.timing(this.sizeBox, {
-            toValue: hp("65%"),
-            duration: 400
-          }).start();
-        }
-        if (this.state.colorBoxOpen) {
-          Animated.timing(this.colorBox, {
-            toValue: hp("30%"),
-            duration: 400
-          }).start();
-        } else {
-          Animated.timing(this.colorBox, {
-            toValue: hp("65%"),
-            duration: 400
-          }).start();
-        }
-      }
-    );
-  };
-
-  render() {
-    const animatedSizeBoxOpacity = this.sizeBox.interpolate({
-      inputRange: [hp("30%"), hp("65%")],
-      outputRange: [1, 0],
-      extrapolate: "clamp"
-    });
-
-    const animatedColorBoxOpacity = this.colorBox.interpolate({
-      inputRange: [hp("30%"), hp("65%")],
-      outputRange: [1, 0],
-      extrapolate: "clamp"
-    });
-
-    const {
-      detailName,
-      detailImageUri,
-      detailPriceOne,
-      detailPriceTwo
-    } = this.props.route.params;
-    const url = detailImageUri && detailImageUri.startsWith("http") ? {uri: detailImageUri} : detailImageUri
-    return (
-      <View
-        style={{
-          flex: 1
-        }}
-      >
-        <ScrollView>
-          {/* image */}
-          <View
+  const url = detailImageUri && detailImageUri.startsWith("http") ? { uri: detailImageUri } : detailImageUri
+  return (
+    <View
+      style={{
+        flex: 1
+      }}
+    >
+      <ScrollView>
+        {/* image */}
+        <View
+          style={{
+            width: width,
+            height: hp("65%")
+          }}
+        >
+          <Image
+            source={url}
             style={{
-              width: width,
-              height: hp("65%")
+              flex: 1,
+              width: null,
+              height: null,
+              resizeMode: "stretch"
             }}
-          >
-            <Image
-              source={url}
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "stretch"
-              }}
-            />
-          </View>
-          {/* image */}
+          />
+        </View>
+        {/* image */}
 
-          {/* ChoosingSizeBox */}
-          {this.state.defaultBox === "colorBox" ? (
-            <ChoosingSizeBox
-              label="Choosing a color"
-              color={true}
-              top={this.colorBox}
-              opacity={animatedColorBoxOpacity}
-              firstItem="black"
-              secondItem="yellow"
-              thirdItem="blue"
-              onPressFirst={() => this.onChooseColor("black")}
-              onPressSecond={() => this.onChooseColor("yellow")}
-              onPressThird={() => this.onChooseColor("blue")}
-            />
-          ) : (
+        {/* ChoosingSizeBox */}
+        {detailsData.defaultBox === "colorBox" ? (
+          <ChoosingSizeBox
+            label="Choosing a color"
+            color={true}
+            top={colorBox}
+            opacity={animatedColorBoxOpacity}
+            firstItem="black"
+            secondItem="yellow"
+            thirdItem="blue"
+            onPressFirst={() => onChooseColor("black")}
+            onPressSecond={() => onChooseColor("yellow")}
+            onPressThird={() => onChooseColor("blue")}
+          />
+        ) : (
             <ChoosingSizeBox
               label="Choosing a size"
-              top={this.sizeBox}
+              top={sizeBox}
               opacity={animatedSizeBoxOpacity}
               firstItem="small"
               secondItem="medium"
               thirdItem="large"
-              onPressFirst={() => this.onChooseItem("small")}
-              onPressSecond={() => this.onChooseItem("medium")}
-              onPressThird={() => this.onChooseItem("large")}
+              onPressFirst={() => onChooseItem("small")}
+              onPressSecond={() => onChooseItem("medium")}
+              onPressThird={() => onChooseItem("large")}
             />
           )}
-          {/* ChoosingSizeBox */}
+        {/* ChoosingSizeBox */}
 
-          {/* priceBox */}
+        {/* priceBox */}
+        <View
+          style={{
+            flex: 1,
+            borderBottomWidth: 1,
+            borderBottomColor: "gray",
+            zIndex: 200
+          }}
+        >
           <View
             style={{
-              flex: 1,
-              borderBottomWidth: 1,
-              borderBottomColor: "gray",
-              zIndex: 200
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginHorizontal: 15,
+              marginVertical: 25
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginHorizontal: 15,
-                marginVertical: 25
-              }}
-            >
-              {/* up bar */}
-              {/* left */}
-              <TouchableWithoutFeedback onPress={() => this.openColorBox()}>
-                <View
-                  style={{
-                    width: wp("45%"),
-                    flexDirection: "row",
-                    borderWidth: 0.8,
-                    borderColor: this.state.colorBorderColor,
-                    borderRadius: 2,
-                    padding: 5
-                  }}
-                >
-                  <View
-                    style={{
-                      flex: 2,
-                      flexDirection: "row",
-                      alignItems: "center"
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: this.state.color,
-                        width: wp("4.5%"),
-                        height: wp("4.5%"),
-                        marginRight: 15
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: "gray",
-                        textTransform: "capitalize"
-                      }}
-                    >
-                      {this.state.color}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: "flex-end",
-                      paddingRight: 15
-                    }}
-                  >
-                    <Icon
-                      name={this.state.colorIconName}
-                      size={20}
-                      color="gray"
-                    />
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-              {/* left */}
-
-              {/* right */}
-              <TouchableWithoutFeedback onPress={() => this.openSizeBox()}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: wp("45%"),
-                    borderWidth: 0.8,
-                    borderColor: this.state.sizeBorderColor,
-                    borderRadius: 2,
-                    padding: 5
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: "gray",
-                      marginLeft: 15,
-                      textTransform: "capitalize"
-                    }}
-                  >
-                    {this.state.size}
-                  </Text>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: "flex-end",
-                      paddingRight: 15
-                    }}
-                  >
-                    <Icon name={this.state.iconName} size={20} color="gray" />
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-              {/* right */}
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginHorizontal: 15,
-                paddingBottom: 25
-              }}
-            >
-              {/* down bar */}
-              {/* left */}
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "flex-end"
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    marginRight: 15
-                  }}
-                >
-                  $ {detailPriceOne}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    color: "gray",
-                    textDecorationLine: "line-through"
-                  }}
-                >
-                  {detailPriceTwo}
-                </Text>
-              </View>
-              {/* left */}
-              {/* right */}
+            {/* up bar */}
+            {/* left */}
+            <TouchableWithoutFeedback onPress={() => openColorBox()}>
               <View
                 style={{
                   width: wp("45%"),
-                  backgroundColor: "#F08C4F",
+                  flexDirection: "row",
+                  borderWidth: 0.8,
+                  borderColor: detailsData.colorBorderColor,
                   borderRadius: 2,
                   padding: 5
                 }}
               >
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate("Basket")}
+                <View
                   style={{
-                    flex: 1,
+                    flex: 2,
                     flexDirection: "row",
                     alignItems: "center"
                   }}
                 >
                   <View
                     style={{
-                      flex: 1,
-                      paddingLeft: 15
+                      backgroundColor: detailsData.color,
+                      width: wp("4.5%"),
+                      height: wp("4.5%"),
+                      marginRight: 15
                     }}
-                  >
-                    <Icon name="md-cart" size={20} color="white" />
-                  </View>
-                  <View
+                  />
+                  <Text
                     style={{
-                      flex: 2
+                      fontSize: 16,
+                      color: "gray",
+                      textTransform: "capitalize"
                     }}
                   >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: "white"
-                      }}
-                    >
-                      Purchase
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                    {detailsData.color}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    paddingRight: 15
+                  }}
+                >
+                  <Icon
+                    name={detailsData.colorIconName}
+                    size={20}
+                    color="gray"
+                  />
+                </View>
               </View>
-              {/* right */}
-            </View>
-          </View>
-          {/* priceBox */}
+            </TouchableWithoutFeedback>
+            {/* left */}
 
-          {/* DescriptionBox */}
+            {/* right */}
+            <TouchableWithoutFeedback onPress={() => openSizeBox()}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: wp("45%"),
+                  borderWidth: 0.8,
+                  borderColor: detailsData.sizeBorderColor,
+                  borderRadius: 2,
+                  padding: 5
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "gray",
+                    marginLeft: 15,
+                    textTransform: "capitalize"
+                  }}
+                >
+                  {detailsData.size}
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    paddingRight: 15
+                  }}
+                >
+                  <Icon name={detailsData.iconName} size={20} color="gray" />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+            {/* right */}
+          </View>
           <View
             style={{
-              flex: 1,
-              borderBottomWidth: 1,
-              borderBottomColor: "gray"
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginHorizontal: 15,
+              paddingBottom: 25
             }}
           >
-            {/* upper */}
+            {/* down bar */}
+            {/* left */}
             <View
               style={{
-                flex: 1,
-                marginHorizontal: 15,
-                marginVertical: 25
+                flexDirection: "row",
+                alignItems: "flex-end"
               }}
             >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  marginRight: 15
+                }}
+              >
+                $ {detailPriceOne}
+              </Text>
               <Text
                 style={{
                   fontSize: 18,
                   fontWeight: "bold",
-                  color: "#5BBC9D"
+                  color: "gray",
+                  textDecorationLine: "line-through"
                 }}
               >
-                Description
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  lineHeight: 20
-                }}
-              >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type.
+                {detailPriceTwo}
               </Text>
             </View>
-            {/* upper */}
-            {/* lower */}
+            {/* left */}
+            {/* right */}
             <View
               style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginHorizontal: 15,
-                paddingBottom: 25
+                width: wp("45%"),
+                backgroundColor: "#F08C4F",
+                borderRadius: 2,
+                padding: 5
               }}
             >
-              {/* left */}
-              <View
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Basket")}
                 style={{
-                  flex: 1
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center"
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    color: "#5BBC9D",
-                    marginBottom: 5
-                  }}
-                >
-                  Available Colors
-                </Text>
                 <View
                   style={{
-                    flexDirection: "row"
+                    flex: 1,
+                    paddingLeft: 15
                   }}
                 >
-                  <View
-                    style={{
-                      backgroundColor: "black",
-                      width: wp("4.5%"),
-                      height: wp("4.5%"),
-                      marginRight: 15
-                    }}
-                  />
-                  <View
-                    style={{
-                      backgroundColor: "yellow",
-                      width: wp("4.5%"),
-                      height: wp("4.5%"),
-                      marginRight: 15
-                    }}
-                  />
-                  <View
-                    style={{
-                      backgroundColor: "blue",
-                      width: wp("4.5%"),
-                      height: wp("4.5%")
-                    }}
-                  />
+                  <Icon name="md-cart" size={20} color="white" />
                 </View>
-              </View>
-              {/* left */}
-              {/* right */}
-              <View
-                style={{
-                  flex: 1
-                }}
-              >
-                <Text
+                <View
                   style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    color: "#5BBC9D",
-                    marginBottom: 5
+                    flex: 2
                   }}
                 >
-                  Available Sizes
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold"
-                  }}
-                >
-                  S, M, L, XL
-                </Text>
-              </View>
-              {/* right */}
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: "white"
+                    }}
+                  >
+                    Purchase
+                    </Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            {/* lower */}
+            {/* right */}
           </View>
-          {/* DescriptionBox */}
+        </View>
+        {/* priceBox */}
 
-          {/* reviews */}
+        {/* DescriptionBox */}
+        <View
+          style={{
+            flex: 1,
+            borderBottomWidth: 1,
+            borderBottomColor: "gray"
+          }}
+        >
+          {/* upper */}
           <View
             style={{
-              paddingLeft: 25,
-              paddingVertical: 5,
-              backgroundColor: "#EFF0F1"
+              flex: 1,
+              marginHorizontal: 15,
+              marginVertical: 25
             }}
           >
             <Text
               style={{
-                fontSize: 14,
-                color: "gray"
+                fontSize: 18,
+                fontWeight: "bold",
+                color: "#5BBC9D"
               }}
             >
-              33 Reviews
-            </Text>
+              Description
+              </Text>
+            <Text
+              style={{
+                fontSize: 13,
+                lineHeight: 20
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type.
+              </Text>
           </View>
-          {/* reviews */}
-
-          {/* reviewBox */}
+          {/* upper */}
+          {/* lower */}
           <View
             style={{
               flex: 1,
               flexDirection: "row",
+              justifyContent: "space-between",
               marginHorizontal: 15,
-              marginVertical: 25
+              paddingBottom: 25
             }}
           >
             {/* left */}
@@ -559,24 +445,42 @@ class Detail extends Component {
                 flex: 1
               }}
             >
-              {/* profile */}
-              <View
+              <Text
                 style={{
-                  width: wp("10%"),
-                  height: wp("10%"),
-                  borderWidth: 1,
-                  borderColor: "gray",
-                  borderRadius: wp("5%"),
-                  overflow: "hidden"
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#5BBC9D",
+                  marginBottom: 5
                 }}
               >
-                <Image
-                  source={require("../../assets/reviewer.jpg")}
+                Available Colors
+                </Text>
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
+                <View
                   style={{
-                    flex: 1,
-                    width: null,
-                    height: null,
-                    resizeMode: "contain"
+                    backgroundColor: "black",
+                    width: wp("4.5%"),
+                    height: wp("4.5%"),
+                    marginRight: 15
+                  }}
+                />
+                <View
+                  style={{
+                    backgroundColor: "yellow",
+                    width: wp("4.5%"),
+                    height: wp("4.5%"),
+                    marginRight: 15
+                  }}
+                />
+                <View
+                  style={{
+                    backgroundColor: "blue",
+                    width: wp("4.5%"),
+                    height: wp("4.5%")
                   }}
                 />
               </View>
@@ -585,71 +489,159 @@ class Detail extends Component {
             {/* right */}
             <View
               style={{
-                flex: 4
+                flex: 1
               }}
             >
-              {/* right_up */}
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 10
-                }}
-              >
-                {/* name and star */}
-                <View>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: "bold",
-                      paddingBottom: 10
-                    }}
-                  >
-                    Jennifer Kristyla says
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: "gray"
-                    }}
-                  >
-                    2 Hours ago
-                  </Text>
-                </View>
-                <View>
-                  <StarRating
-                    disabled={true}
-                    maxStars={5}
-                    rating={4}
-                    starSize={16}
-                    fullStarColor="yellow"
-                  />
-                </View>
-              </View>
-              {/* right_up */}
-              {/* right_down */}
               <Text
                 style={{
-                  color: "gray",
-                  fontSize: 13,
-                  lineHeight: 18
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#5BBC9D",
+                  marginBottom: 5
                 }}
               >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type
-              </Text>
-              {/* right_down */}
+                Available Sizes
+                </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold"
+                }}
+              >
+                S, M, L, XL
+                </Text>
             </View>
             {/* right */}
           </View>
-          {/* reviewBox */}
-        </ScrollView>
-      </View>
-    );
-  }
+          {/* lower */}
+        </View>
+        {/* DescriptionBox */}
+
+        {/* reviews */}
+        <View
+          style={{
+            paddingLeft: 25,
+            paddingVertical: 5,
+            backgroundColor: "#EFF0F1"
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              color: "gray"
+            }}
+          >
+            33 Reviews
+            </Text>
+        </View>
+        {/* reviews */}
+
+        {/* reviewBox */}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            marginHorizontal: 15,
+            marginVertical: 25
+          }}
+        >
+          {/* left */}
+          <View
+            style={{
+              flex: 1
+            }}
+          >
+            {/* profile */}
+            <View
+              style={{
+                width: wp("10%"),
+                height: wp("10%"),
+                borderWidth: 1,
+                borderColor: "gray",
+                borderRadius: wp("5%"),
+                overflow: "hidden"
+              }}
+            >
+              <Image
+                source={require("../../assets/reviewer.jpg")}
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: "contain"
+                }}
+              />
+            </View>
+          </View>
+          {/* left */}
+          {/* right */}
+          <View
+            style={{
+              flex: 4
+            }}
+          >
+            {/* right_up */}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 10
+              }}
+            >
+              {/* name and star */}
+              <View>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    paddingBottom: 10
+                  }}
+                >
+                  Jennifer Kristyla says
+                  </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    color: "gray"
+                  }}
+                >
+                  2 Hours ago
+                  </Text>
+              </View>
+              <View>
+                <StarRating
+                  disabled={true}
+                  maxStars={5}
+                  rating={4}
+                  starSize={16}
+                  fullStarColor="yellow"
+                />
+              </View>
+            </View>
+            {/* right_up */}
+            {/* right_down */}
+            <Text
+              style={{
+                color: "gray",
+                fontSize: 13,
+                lineHeight: 18
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type
+              </Text>
+            {/* right_down */}
+          </View>
+          {/* right */}
+        </View>
+        {/* reviewBox */}
+      </ScrollView>
+    </View>
+  );
 }
+// }
 
 export default Detail;

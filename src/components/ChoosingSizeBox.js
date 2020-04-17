@@ -25,7 +25,7 @@ class ChoosingBoxSize extends Component {
         style={[
           {
             height: hp("35%"),
-            backgroundColor: "rgba(255,255,255,0.7)",
+            backgroundColor: "rgba(255,255,255,0.9)",
             position: "absolute",
             top: top, // props
             left: 0,
