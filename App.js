@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+// import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+// import { ApolloProvider } from '@apollo/react-hooks';
 
 import 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/Ionicons';
@@ -23,8 +23,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import LoginScreen from './src/views/LoginScreen';
-import { resolvers } from './src/graphql-apollo/resolver'
-// import defaultDtata from './src/graphql-apollo/defaultData';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -269,35 +267,21 @@ const DrawerScreen = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerComponent {...props} />}
     >
-     <Drawer.Screen name="Home" component={HomeStackNavigator} />
-      <Drawer.Screen name="App" component={LoginScreen} />
-      <Drawer.Screen name="Login" component={Register} />
-      <Drawer.Screen name="Register" component={Login} />
-     
+      <Drawer.Screen name="Main" component={Login} />
+      <Drawer.Screen name="Register" component={Register} />
+      <Drawer.Screen name="Login" component={LoginScreen} />
+      <Drawer.Screen name="Home" component={HomeStackNavigator} />
     </Drawer.Navigator>
   );
 };
 
-const cache = new InMemoryCache();
-
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'http://192.168.1.71:8000/graphql',
-  }),
-  cache,
-  resolvers
-});
-
-// client.writeData({ data : defaultDtata });
 
 class App extends React.Component {
   render() {
     return (
-      <ApolloProvider client={client}>
         <NavigationContainer>
           <DrawerScreen />
         </NavigationContainer>
-      </ApolloProvider>
     );
   }
 }

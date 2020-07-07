@@ -17,18 +17,15 @@ import { MUTATION_USER_SIGNIN } from '../graphql-apollo/auth';
 const LoginScreen = (props) => {
   const [formData, updateFormData] = useState({email: '', password: ''});
   const { email, password } = formData;
-  const client = useApolloClient();
+
   
-  const onCompletedLogin = ({signIn}) => {
-    if(signIn){
-      client.writeData({ data: { signIn }});
+  const onCompletedLogin = () => {
       props.navigation.navigate('Home');
-    }
   }
 
-  const [ LoginFun, { loading } ] = useMutation(MUTATION_USER_SIGNIN, 
-    { variables: { email, password }, onCompleted: onCompletedLogin }
-  );
+  // const [ LoginFun, { loading } ] = useMutation(MUTATION_USER_SIGNIN, 
+  //   { variables: { email, password }, onCompleted: onCompletedLogin }
+  // );
 
   const onChangeText = (value, name) => {
     updateFormData({ ...formData, [name]: value });
@@ -123,7 +120,7 @@ const LoginScreen = (props) => {
         backgroundColor: '#F6F6F6',
       }}
     >
-      <Spinner visible={loading} />
+      {/* <Spinner visible={loading} /> */}
       <Animated.View
         style={{
           height: hp('18%'),
@@ -209,7 +206,7 @@ const LoginScreen = (props) => {
           >
             <Button
               fullWidth
-              onPress={LoginFun}
+              onPress={onCompletedLogin}
               backgroundColor="#F08C4F"
               text="Login"
             />

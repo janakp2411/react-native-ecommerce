@@ -9,7 +9,7 @@ class Login extends Component {
   };
 
   onPressLogin = () => {
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('Login');
   };
 
   render() {

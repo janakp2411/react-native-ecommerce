@@ -15,7 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { MUTATION_USER_REGISTER } from '../graphql-apollo/auth';
 
 const Register = (props) => {
-  const client = useApolloClient();
+  // const client = useApolloClient();
   const [formData, updateFormData] = useState({
     username: '',
     email: '',
@@ -24,16 +24,15 @@ const Register = (props) => {
 
   const { username, email, password } = formData;
 
-  const onCompletedRegister = ({signUp }) => {
-    if(signUp && signUp.token){
-      client.writeData({ data: {signUp }});
+  const onCompletedRegister = () => {
+      // client.writeData({ data: {signUp }});
       props.navigation.navigate('Home');
-    }
+    
   }
 
-  const [ SignUp, { loading } ] = useMutation(MUTATION_USER_REGISTER, 
-    { variables: { username, email, password}, onCompleted: onCompletedRegister }
-  );
+  // const [ SignUp, { loading } ] = useMutation(MUTATION_USER_REGISTER, 
+  //   { variables: { username, email, password}, onCompleted: onCompletedRegister }
+  // );
 
   const onChangeText = (value, name) => {
     updateFormData({ ...formData, [name]: value });
@@ -129,7 +128,7 @@ const Register = (props) => {
         backgroundColor: '#F6F6F6',
       }}
     >
-      <Spinner visible={loading} />
+      {/* <Spinner visible={loading} /> */}
       <Animated.View
         style={{
           height: hp('18%'),
@@ -221,7 +220,7 @@ const Register = (props) => {
           >
             <Button
               fullWidth
-              onPress={SignUp}
+              onPress={onCompletedRegister}
               backgroundColor="#F08C4F"
               text="Complete registration"
             />

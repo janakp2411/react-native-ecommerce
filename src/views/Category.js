@@ -44,6 +44,7 @@ const Category = (props) => {
   }
   const { data: newData, loading } = useQuery(QAUARY_GET_CATAGOTY, { onCompleted: onCategoryLoad});
   const [currentIndex, setCurrentIndex] = useState(0);
+  
   const renderCategory = () => {
     return newData && newData.getAllCategory.map((item, i) => {
       return (
