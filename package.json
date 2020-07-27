@@ -37,6 +37,7 @@
     "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-responsive-screen": "^1.2.0",
     "react-native-star-rating": "^1.1.0",
+    "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.13.0",
     "react-native-web": "~0.11.7",
     "react-navigation-drawer": "^2.4.11"

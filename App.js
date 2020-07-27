@@ -23,6 +23,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import LoginScreen from './src/views/LoginScreen';
+import PickupScreen from './src/views/PickupScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -270,18 +271,18 @@ const DrawerScreen = () => {
       <Drawer.Screen name="Main" component={Login} />
       <Drawer.Screen name="Register" component={Register} />
       <Drawer.Screen name="Login" component={LoginScreen} />
+      <Drawer.Screen name="Pickup" component={PickupScreen} />
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
     </Drawer.Navigator>
   );
 };
 
-
 class App extends React.Component {
   render() {
     return (
-        <NavigationContainer>
-          <DrawerScreen />
-        </NavigationContainer>
+      <NavigationContainer>
+        <DrawerScreen />
+      </NavigationContainer>
     );
   }
 }

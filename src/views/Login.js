@@ -8,8 +8,11 @@ class Login extends Component {
     this.props.navigation.navigate('Register');
   };
 
-  onPressLogin = () => {
-    this.props.navigation.navigate('Login');
+  // onPressLogin = () => {
+  //   this.props.navigation.navigate('Login');
+  // };
+  onPressPickup = () => {
+    this.props.navigation.navigate('Pickup');
   };
 
   render() {
@@ -22,72 +25,54 @@ class Login extends Component {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#F6F6F6',
+            backgroundColor: '#FFFFFF',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
           {/* brandName part */}
-          <Text
+          <ImageBackground
+            source={require('../../assets/logo.jpg')}
             style={{
-              // fontSize: hp("11.25%"),
-              fontSize: 90,
-              fontWeight: 'bold',
+              flex: 0,
+              width: 250,
+              // height: hp('78%'),
+              height: 140,
             }}
-          >
-            fash.
-          </Text>
-          <Text
-            style={{
-              fontSize: 26,
-              fontWeight: '400',
-            }}
-          >
-            your 24h fash.store
-          </Text>
+          ></ImageBackground>
         </View>
         <View
           style={{
-            flex: 2,
+            flex: 1,
+            backgroundColor: '#FFFFFF',
           }}
         >
-          {/* Image part */}
-          <ImageBackground
-            source={require('../../assets/login_bg_1.jpg')}
+          <View
             style={{
-              flex: 1,
-              width: null,
-              height: hp('78%'),
-              // height: 550
+              flex: 0,
+              justifyContent: 'flex-end',
             }}
           >
             <View
               style={{
-                flex: 1,
-                justifyContent: 'flex-end',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: hp('5%'),
+                paddingHorizontal: hp('2.5%'),
               }}
             >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingBottom: hp('5%'),
-                  paddingHorizontal: hp('2.5%'),
-                }}
-              >
-                <Button
-                  onPress={this.onPressRegister}
-                  backgroundColor="#F08C4F"
-                  text="Register"
-                />
-                <Button
-                  onPress={this.onPressLogin}
-                  backgroundColor="#5BBC9D"
-                  text="Login"
-                />
-              </View>
+              <Button
+                onPress={this.onPressRegister}
+                backgroundColor="#F08C4F"
+                text="Delivery"
+              />
+              <Button
+                onPress={this.onPressPickup}
+                backgroundColor="#5BBC9D"
+                text="Pickup"
+              />
             </View>
-          </ImageBackground>
+          </View>
         </View>
       </View>
     );

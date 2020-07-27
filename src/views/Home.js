@@ -1,66 +1,51 @@
-import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
-import HomeCategory from "../components/HomeCategory";
+import React from 'react';
+import { FlatList, Text, View, Image, TouchableHighlight } from 'react-native';
+import styles from './styles';
+import { categories } from '../data/dataArrays';
 
-const categories = [
-  {
-    imageUri: "women_fashion.jpg",
-    titleFirst: "Womens",
-    titleSecond: "Fashion",
-    subTitle: "Spring Season. Opened!",
-    screenProps: "Super"
-  },
-  {
-    imageUri: "men_fashion.jpeg",
-    titleFirst: "Mens",
-    titleSecond: "Fashion",
-    subTitle: "Pure. Old Fashioned.",
-    screenProps: "Super"
-  },
-  {
-    imageUri: "kids_fashion.jpg",
-    titleFirst: "Kids",
-    titleSecond: "Fashion",
-    subTitle: "For the smallest.",
-    screenProps: "Super"
+export default class Home extends React.Component {
+  static navigationOptions = {
+    title: 'Categories',
+  };
+
+  constructor(props) {
+    super(props);
   }
-]
 
-class Home extends Component {
+  onPressCategory = (item) => {
+    const title = item.name;
+    const category = item;
+    this.props.navigation.navigate('RecipesList', { category, title });
+  };
+
+  renderCategory = ({ item }) => (
+    <TouchableHighlight
+      underlayColor="rgba(73,182,77,1,0.9)"
+      onPress={() => this.onPressCategory(item)}
+    >
+      <View style={styles.categoriesItemContainer}>
+        <Image
+          style={styles.categoriesPhoto}
+          source={{ uri: item.photo_url }}
+        />
+        <Text style={styles.categoriesName}>{item.name}</Text>
+        {/* <Text style={styles.categoriesInfo}>"1" recipes</Text> */}
+      </View>
+    </TouchableHighlight>
+  );
+
   render() {
     return (
-      <View
-        style={{
-          flex: 1
-        }}
-      >
-        <ScrollView scrollEnabled>
-          <HomeCategory
-            imageUri={require("../../assets/women_fashion.jpg")}
-            titleFirst="Womens"
-            titleSecond="Fashion"
-            subTitle="Spring Season. Opened!"
-            screenProps="Super"
-            {...this.props}
-          />
-          <HomeCategory
-            imageUri={require("../../assets/men_fashion.jpeg")}
-            titleFirst="Mens"
-            titleSecond="Fashion"
-            subTitle="Pure. Old Fashioned."
-            {...this.props}
-          />
-          <HomeCategory
-            imageUri={require("../../assets/kids_fashion.jpg")}
-            titleFirst="Kids"
-            titleSecond="Fashion"
-            subTitle="For the smallest."
-            {...this.props}
-          />
-        </ScrollView>
+      <View>
+        <FlatList
+          vertical
+          showsVerticalScrollIndicator={false}
+          numColumns={1}
+          data={categories}
+          renderItem={this.renderCategory}
+          keyExtractor={(item) => `${item.id}`}
+        />
       </View>
     );
   }
 }
-
-export default Home;

@@ -14,7 +14,7 @@ import Button from '../components/Button';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { MUTATION_USER_SIGNIN } from '../graphql-apollo/auth';
 
-const LoginScreen = (props) => {
+const PickupScreen = (props) => {
   const [formData, updateFormData] = useState({ email: '', password: '' });
   const { email, password } = formData;
 
@@ -115,105 +115,80 @@ const LoginScreen = (props) => {
   return (
     <View
       style={{
-        flex: 1,
-        backgroundColor: '#F6F6F6',
+        paddingTop: hp('10%'),
+        margin: 10,
       }}
     >
-      {/* <Spinner visible={loading} /> */}
-      <Animated.View
+      <Text
         style={{
-          height: hp('18%'),
-          justifyContent: 'center',
-          paddingHorizontal: hp('2.5%'),
-          marginTop: animatedTitleTopMargin,
-          // marginTop: Platform.OS == "android" ? hp("3.75%") : null
+          fontSize: 40,
+          fontWeight: 'bold',
+          textAlign: 'center',
         }}
       >
-        <Animated.Text
-          style={{
-            fontSize: animatedTitleSize,
-            fontWeight: '400',
-            // opacity: animatedTitleOpacity
-            opacity: 1,
-          }}
-        >
-          Login
-        </Animated.Text>
-      </Animated.View>
-      <Animated.View
-        style={{
-          flex: 1,
-          paddingHorizontal: hp('2.5%'),
-          marginBottom: Platform.OS == 'android' ? hp('10%') : null,
-          marginTop: formPosition,
-        }}
-      >
-        {/* form */}
-
-        <Input
-          onChangeText={onChangeText}
-          value={email}
-          name="email"
-          label="Your email address"
-          placeholder="Email address"
-        />
-        <Input
-          secureTextEntry={true}
-          onChangeText={onChangeText}
-          value={password}
-          name="password"
-          label="Your password"
-          placeholder="Password"
-        />
-        <Text
-          style={{
-            fontWeight: '500',
-            color: 'gray',
-          }}
-        >
-          Or easily{' '}
-          <Text
-            style={{
-              color: '#F08C4F',
-            }}
-          >
-            connect with facebook
-          </Text>
-        </Text>
-      </Animated.View>
+        Pickup Locations
+      </Text>
       <View
         style={{
-          flex: 1,
+          flex: 0,
           paddingHorizontal: hp('2.5%'),
+          //paddingBottom: hp('5%'),
+          //paddingTop: hp('10%'),
+          margin: 10,
+          //flexDirection: 'row',
         }}
       >
-        <ImageBackground
-          source={require('../../assets/login_bg_1.jpg')}
+        <View
           style={{
-            flex: 1,
-            width: null,
-            height: hp('72%'),
-            // height: Platform.OS == "android" ? 470 : 440
+            paddingTop: hp('10%'),
           }}
         >
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'flex-end',
-              paddingBottom: hp('5%'),
-            }}
-          >
-            <Button
-              fullWidth
-              onPress={onCompletedLogin}
-              backgroundColor="#F08C4F"
-              text="Login"
-            />
-          </View>
-        </ImageBackground>
+          <Button
+            fullWidth
+            onPress={onCompletedLogin}
+            backgroundColor="#F08C4F"
+            text="Rutherford"
+          />
+        </View>
+        <View
+          style={{
+            paddingTop: hp('5%'),
+          }}
+        >
+          <Button
+            fullWidth
+            onPress={onCompletedLogin}
+            backgroundColor="#F08C4F"
+            text="Mahwah"
+          />
+        </View>
+        <View
+          style={{
+            paddingTop: hp('5%'),
+          }}
+        >
+          <Button
+            fullWidth
+            onPress={onCompletedLogin}
+            backgroundColor="#F08C4F"
+            text="Iselin"
+          />
+        </View>
+        <View
+          style={{
+            paddingTop: hp('5%'),
+          }}
+        >
+          <Button
+            fullWidth
+            onPress={onCompletedLogin}
+            backgroundColor="#F08C4F"
+            text="Lodi"
+          />
+        </View>
       </View>
     </View>
   );
 };
 
-export default LoginScreen;
+export default PickupScreen;
